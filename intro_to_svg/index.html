@@ -1,0 +1,71 @@
+<!HTML>
+  <head>
+    <link rel="stylesheet" type="text/css" href="../../bootstrap/css/bootstrap.css"></link>
+  </head>
+  <body>
+  <div style="margin-left:20px;margin-right:20px">
+    <h1>Intro to SVG</h1>
+    <h3>Links</h3>
+    you can find useful <a href="https://developer.mozilla.org/en-US/docs/Web/SVG">tutorials and information on svg from the Mozilla Foundation</a>
+    <hr/>
+    <h3>Examples</h3>
+    <h4>A rectangle</h4>
+    <p><code>&ltrect x="10" y="10" width="50" height="100"&gt/></code></p>
+    <p>note, that in SVG, y values draw form the top of the viewport down, not
+    from the bottom of the viewport up. The same goes for 'height'</p>
+    <svg width="120" height="120" style="border:1px solid gray">
+      <rect x="10" y="50" width="100" height="50"/> 
+    </svg>
+    <h4>A circle</h4>
+    <p><code>&ltcircle cx="40" cy="50" r="30"/&gt</code></p>
+    <svg width="120" height="120" style="border:1px solid gray">
+      <circle cx="40" cy="50" r="30"/> 
+    </svg>
+    <h4>A path</h4>
+    <p><code>&ltpath d="M 50 50 L 150 50 L 100 150 z"
+        fill="orange" stroke="black" stroke-width="3" /&gt
+    </code></p>
+    <svg width="200" height="200" style="border:1px solid gray">
+      <path d="M 50 50 L 150 50 L 100 150 z"
+          fill="orange" stroke="black" stroke-width="3" />     
+    </svg>
+    <h4>Text</h4>
+       <p><code>&lttext x="50" y="30" 
+          style="font-family:Verdana;font-size:15"&gt
+          Hello, World!
+        &lt/text&gt</code></p>
+    <svg width="200" height="200" style="border:1px solid gray">
+      <path d="M 50 50 L 150 50 L 100 150 z"
+          fill="orange" stroke="black" stroke-width="3" />     
+      <text x="50" y="30" 
+        style="font-family:Verdana;font-size:15">
+        Hello, World!
+      </text> 
+    </svg>
+    <h4>Group</h4>
+    <p>
+      Groups are used to contain multiple svg elements. Any transformations,
+      or attributes that are applied to a group will also be applied to all
+      of a group's sub-elements
+    </p>
+      <code>
+      &ltg transform="rotate(90, 150, 50) translate(100, 20) "&gt</br>
+        <span style="padding-left:10px; margin-top:0px">&ltpath d="M 50 50 L 150 50 L 100 150 z" fill="orange" stroke="black" stroke-width="3" /&gt</span></br>
+        <span style="padding-left:10px; margin-top:0px">&lttext x="50" y="30" style="font-family:Verdana;font-size:15"&gt
+          Hello, World!
+        &lt/text&gt</span></br>
+      &lt/g&gt</br>
+      </code>
+    <svg width="200" height="200" style="border:1px solid gray">
+      <g transform="rotate(90, 150, 50) translate(100, 20) ">
+        <path d="M 50 50 L 150 50 L 100 150 z"
+            fill="orange" stroke="black" stroke-width="3" />     
+        <text x="50" y="30" 
+          style="font-family:Verdana;font-size:15">
+          Hello, World!
+        </text> 
+      </g>
+    </svg>
+  </div> 
+  </body>
+</HTML>
