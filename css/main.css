@@ -14,7 +14,7 @@
 }
 
 .icon-email {
-  margin-right: 4px;
+  margin-right: 0px;
 }
 
 hr#footer-hr {
@@ -45,4 +45,8 @@ div#content.page-content {
 
 .list-inline {
   margin-left: 0px;
+}
+
+#twitter-plug {
+  margin-top: 25px;
 }

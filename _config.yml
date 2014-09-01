@@ -2,12 +2,13 @@
 title: Things you should know about Web Development 
 email: acuevas.15@gmail.com 
 baseurl: ""
-url: "http://yourdomain.com"
+url: "http://acuevas-15.github.io"
 github_username: acuevas-15 
 twitter_username: acuevas_15 
 
 author:
   home: "Columbus, Ohio"
+  name: "Anthony Cuevas"
 # Build settings
 markdown: kramdown
 permalink: pretty
