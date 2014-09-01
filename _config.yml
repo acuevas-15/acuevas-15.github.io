@@ -1,7 +1,6 @@
 # Site settings
 title: Things you should know about Web Development 
 email: acuevas.15@gmail.com 
-description: "Yet another blog about Web Development."
 baseurl: ""
 url: "http://yourdomain.com"
 github_username: acuevas-15 

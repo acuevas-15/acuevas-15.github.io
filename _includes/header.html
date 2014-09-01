@@ -1,11 +1,12 @@
 <header class="site-header">
 
-  <div class="wrap">
+  <div class="wrap container">
 
     <nav class="site-nav">
       <div class="trigger">
+          <a class="btn btn-primary btn-sm margin-vertical-10 margin-horizontal-4" href="/">Home</a>
         {% for page in site.pages %}
-          {% if page.title %}<a class="page-link" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>{% endif %}
+          {% if page.title %}<a class="btn btn-default btn-sm margin-vertical-10 margin-horizontal-4" role="button" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>{% endif %}
         {% endfor %}
       </div>
     </nav>

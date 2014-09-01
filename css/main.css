@@ -8,16 +8,41 @@
   top: 3px;
 }
 
-body#body {
-  background-color: #fafafa;
-}
-
 #menu {
   background-color: #202020; 
-  height: 30px;
   margin-bottom: 15px;
 }
 
 .icon-email {
   margin-right: 4px;
+}
+
+hr#footer-hr {
+  border-top: 2px solid #ccc;
+}
+
+li.L0, li.L1, li.L2, li.L3, li.L5, li.L6, li.L7, li.L8 {
+    list-style-type: decimal;
+}
+
+.margin-vertical-10 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.margin-horizontal-4 {
+  margin-right: 4px;
+  margin-left: 4px;
+}
+
+div#content.page-content h3, p, div#description {
+  padding-left: 0px;
+}
+
+div#content.page-content {
+  padding-left: 0px;
+}
+
+.list-inline {
+  margin-left: 0px;
 }
