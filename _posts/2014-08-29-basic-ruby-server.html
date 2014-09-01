@@ -1,0 +1,18 @@
+---
+title: "Basic Ruby web server"
+date: 2014-08-29 21:50:31
+layout: post
+categories: ruby server
+---
+
+<p>When prototyping a web site, I prefer to work on a simple web server.  To a developer, simple means as little configuration as possible.  Python offers a great server (SimpleHTTPServer) that is very simple to use.  SimpleHTTPServer is included with the python interpreter and it does not require any properties files for configuration.  However, while Python is not widely used at my new work site, Ruby is approved for use on my team.  This made me want to find a good alternative for Python's wonderful SimpleHTTPServer in the Ruby Ecosystem.</p>
+
+<p>It turns out that the Ruby interpreter comes with its own option for hosting flat files on your file system.  If you want to host the contents of your current directory, and also the contents of each sub-directory then simply run the following command:</p>
+
+<pre class="prettyprint lang-bash">
+acuevas$ ruby -run -e httpd . -p 4000
+</pre>
+
+<p>The -p flag can be used to set the port number used by the server.  The -p flag is optional.</p>
+<p>Note that if you start the <code>httpd</code> in a directory that contains an <code>index.html</code> file then simply visiting <code>localhost:4000</code> will access your index.html file.</p>
+<p>If the directory that is served by the httpd server does not contain an index.html file, then visiting localhost:4000 will allow you to see an overview of the files in your directory.</p>
