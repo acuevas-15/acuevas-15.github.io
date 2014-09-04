@@ -1,0 +1,22 @@
+---
+title: "Basic File searching with grep"
+date: 2014-09-02 21:27:00
+layout: post
+categories: unix grep
+author: "Anthony Cuevas"
+meta: "A basic understanding of grep can be a great help in navigating and analyzing a large code base"
+---
+
+<p>grep is used to search for a pattern in each line of a file, or standard input.  According to this <a href="https://medium.com/@rualthanzauva/grep-was-a-private-command-of-mine-for-quite-a-while-before-i-made-it-public-ken-thompson-a40e24a5ef48">blog post</a>, the grep command is actually over 40 years old.  Despite it's age, grep is still an essential tool for analyzing application code and other text based projects.</p>
+
+<p>In order to illustrate how to use grep, let's set up a simple project setup</p>
+<code class="directory-view">
+<ul class="list-unstyled">
+    <ul class="list-unstyled"> 
+    <li class="directory">OH/</li>
+    <ul class="list-unstyled"><li>OH_expected_data.yml</li></ul>
+    <li class="directory">MI/</li>
+    <ul class="list-unstyled"><li>MI_expected_data.yml</li></ul>
+    </ul>
+</ul>
+</code>

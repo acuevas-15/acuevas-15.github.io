@@ -1,6 +1,9 @@
+---
+---
 
-.github-icon-svg,
-.twitter-icon-svg {
+$menu-color : #202020;
+
+.github-icon-svg, .twitter-icon-svg {
   display: inline-block;
   width: 16px;
   height: 16px;
@@ -9,11 +12,11 @@
 }
 
 #menu {
-  background-color: #202020; 
+  background-color: $menu-color; 
   margin-bottom: 15px;
 }
 
-.icon-email {
+.margin-right-0 {
   margin-right: 0px;
 }
 
@@ -52,3 +55,18 @@ div#content.page-content {
 }
 
 #content h2 {margin-bottom: 20px;}
+
+.directory-view {
+  padding: 0px 0px;
+  ul {
+    margin-left: 15px;
+  }
+
+  li.directory {
+    color: blue;
+  }
+
+  li {
+    color: black;
+  }
+}
