@@ -1,0 +1,4 @@
+10456 - 12:01:00 - INFO: calling GIS - Searching for address - 123 E Main Street Apt 3D - Columbus - OH
+10457 - 12:01:00 - ERROR: sessionid="12345" - Error invoking gis service:
+10458 - 12:09:00 - INFO: sessionid="54362" - processing payment
+10459 - 12:09:00 - INFO: sessionid="54362" - payment was processed successfully, paymentid=3820d0230g

@@ -5,18 +5,104 @@ layout: post
 categories: unix grep
 author: "Anthony Cuevas"
 meta: "A basic understanding of grep can be a great help in navigating and analyzing a large code base"
+links:
+  - title: What is grep?
+    id: intro
+  - title: A real world use case
+    id: use-case 
+  - title: A sample log file layout
+    id: log-structure
+  - title: Searching log files with grep
+    id: basic-search
+  - title: Using grep's context control options
+    id: context
+  - title: How many times did our error occur? 
+    id: wc
 ---
-
+<div id="links">
+  <ul class="list-unstyled">
+    {% for link in page.links %}
+      <li>
+        <a href="#{{link.id}}" class="header-link">{{link.title}}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+<h4 id="intro">What is grep?</h4>
 <p>grep is used to search for a pattern in each line of a file, or standard input.  According to this <a href="https://medium.com/@rualthanzauva/grep-was-a-private-command-of-mine-for-quite-a-while-before-i-made-it-public-ken-thompson-a40e24a5ef48">blog post</a>, the grep command is actually over 40 years old.  Despite it's age, grep is still an essential tool for analyzing application code and other text based projects.</p>
 
-<p>In order to illustrate how to use grep, let's set up a simple project setup</p>
+<h4 id="use-case">A real world use case</h4>
+<p>In order to illustrate how to use grep, let's set up a simple and common use-case.  Analyzing log files can be much easier using grep.  Many web applications are served in a clustered environment.  This means that multiple software servers handle requests to the same url.  I have worked on clustered applications before myself.  In one case, the servers all ran in different directories in the file system, and each server printed a log file to a different server as well.  This means that in order to view the logs, I would actually have to inspect multiple text files, not just one.  To further complicate matters, one customer session could transfer from one server to another, so at times I would have to check multiple files just to understand the flow that was encountered by a single user.  The set-up below is meant to simulate a situation like this, with two servers handling web requests.</p>
+
+<h4 id="log-structure">Our environment's log structure</h4> 
+<h5>The directory structure:</h5>
 <code class="directory-view">
 <ul class="list-unstyled">
     <ul class="list-unstyled"> 
-    <li class="directory">OH/</li>
-    <ul class="list-unstyled"><li>OH_expected_data.yml</li></ul>
-    <li class="directory">MI/</li>
-    <ul class="list-unstyled"><li>MI_expected_data.yml</li></ul>
+    <li class="directory">cluster1/</li>
+    <ul class="list-unstyled"><li>sessions.log</li></ul>
+    <li class="directory">cluster2/</li>
+    <ul class="list-unstyled"><li>sessions.log</li></ul>
     </ul>
 </ul>
 </code>
+
+<h5>Excerpts from our log files:</h5>
+<p><strong>cluster1/sessions.log</strong></p>
+<div class="text-file">
+    <p>
+    10456 - 12:01:00 - INFO: calling GIS - Searching for address - 123 E Main Street Apt 3D - Columbus - OH<br>
+    10457 - 12:01:00 - ERROR: sessionid="12345" - Error invoking gis service:<br>
+    10458 - 12:09:00 - INFO: sessionid="54362" - processing payment<br>
+    10459 - 12:09:00 - INFO: sessionid="54362" - payment was processed successfully, paymentid=3820d0230g
+    </p>
+</div>
+
+<p><strong>cluster2/sessions.log</strong></p>
+<div class="text-file">
+    <p>
+    580359 - 12:01:01 - ERROR: sessionid="12345"-  Error calling GIS - invalid address street field error<br>
+    580360 - 12:01:01 - ERROR: sessionid="12345" -  Sending customer to Error page<br>
+    580361- 12:01:01 - INFO: calling GIS - Searching for address - 763 Lynne Street - Columbus - OH<br>
+    580362 - 12:01:02 - ERROR: sessionid="13355" - Error invoking gis service:<br>
+    </p>
+</div>
+
+<h4 id="basic-search">Searching our logs for an error</h4>
+<p>A customer has reported an error in our production environment.  After entering his address, a customer was unable to continue to the next page.  Luckily, the user was so helpful that he also furnished us with his session id, which is printed to each page in our app.  We print our session id to the log files frequently, that id is the perfect search term we could use to start our search.</p>
+
+<pre class="prettyprint lang-bash">
+acuevas$ grep 12345 * -r
+cluster1/sessions.log:10457 - 12:01:00 - ERROR: sessionid="12345" - Error invoking gis service:
+cluster2/sessions.log:580359 - 12:01:01 - ERROR: sessionid="12345"- Error calling GIS - invalid address street field error
+cluster2/sessions.log:580360 - 12:01:01 - ERROR: sessionid="12345" - Sending customer to Error page
+</pre>
+
+<p>The first argument that is passed in to grep is the pattern you wish to match.  I used literal text in this case (12345), but wildcards, and even Perl-style regex are supported in many versions of grep.  The next argument is the file you wish to search.  You may use wildcards in this argument as well.  I also used the -r flag, which calls for grep to search the current directory for the file specified, and to also search each subdirectory recursively.  By running grep from the parent folder of each cluster, and using the -r flag, we are able to see results from both log files using only one search.  Now that we have discussed the arguments used in the command, let's talk about the results.</p>
+
+<p>We can see that our user really did land on the Error page, and now we can see that the reason for our error was because of a problem that popped up invoking the gis service.  Further, the second line of our search explains that there was something wrong with our address.  Perhaps, we should get our hands on the address and so that we can pass it along to the gis team and ask them what is wrong with the format.  At this point we could open up vi or some other text editor, and navigate to 10457 in cluster1/sessions.log and start looking to see if we logged the address data.  However, the address data could possibly reside in cluster2's log file.  It is likely that we log the address data around the same exact time that we invoke gis.  We really just want to check the contents of the log files around the same position where our gis call is reported.  Using some of grep's context control options, we can do just that.</p>
+
+<h4 id="context">Displaying the content near our error match for more information</h4>
+
+<pre class="prettyprint lang-bash">
+acuevas$ grep 12345 * -r -B 1 -A 1
+cluster1/sessions.log-10456 - 12:01:00 - INFO: calling GIS - Searching for address - 123 E Main Street Apt 3D - Columbus - OH
+cluster1/sessions.log:10457 - 12:01:00 - ERROR: sessionid="12345" - Error invoking gis service:
+cluster1/sessions.log-10458 - 12:09:00 - INFO: sessionid="54362" - processing payment
+--
+cluster2/sessions.log:580359 - 12:01:01 - ERROR: sessionid="12345"- Error calling GIS - invalid address street field error
+cluster2/sessions.log:580360 - 12:01:01 - ERROR: sessionid="12345" - Sending customer to Error page
+cluster2/sessions.log-580361- 12:01:01 - INFO: calling GIS - Searching for address - 763 Lynne Street - Columbus - OH
+</pre>
+
+<p>The search above is very much like the one before it, but just with two more optional flags added.  The -B flag, along with an integer, is used to specify the number of lines just <em>before</em> our grep search hit that should also print to standard out.  Similarly, the -A flag is used to indicate how many lines grep should print after our search match.  Picking only 1 line before and 1 line after worked out for us in this scenario, but you may need to print much more information than this at times.  In this case, in the first line of our grep result we can see an address was sent to gis immediately before we received an error.  This looks like it is the address we should analyze.</p>
+
+<h4 id="wc">Bonus - detecting the number of times our error occurred using word count</h4>
+
+<pre class="prettyprint lang-bash">
+acuevas$ grep "Error invoking gis" * -r | wc -l 
+        2
+</pre>
+<p>In this command, we ran grep to search for our gis related error message.  Next, we piped that command into the word count command and asked word count to print the number of lines it received.  By piping our grep error search into <code>wc</code> it is easy to tell that our error occurred twice.</p>
+
+<p>Unix commands are very powerful, and the ability to combine them using pipes makes them very versatile.  Mac machines and Linux machines come with many commands, including grep, pre-installed.  Windows machines do not have these commands pre-installed, but windows users can install them anyways.  I work on a windows machine at my job, but I love to use Unix commands such as grep.  Personally, I use Git Bash to on my machine to run my commands.  Git Bash is bundled with git for Windows, which can be installed here: <a href="http://git-scm.com/downloads">git</a>.  If you would like to re-run my commands or examine the files I used in these examples then you can find them <a href="https://github.com/acuevas-15/acuevas-15.github.io/tree/master/code-samples/basic-file-searching-with-grep">here.</a></p>

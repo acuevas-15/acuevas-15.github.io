@@ -1,0 +1,4 @@
+580359 - 12:01:01 - ERROR: sessionid="12345"- Error calling GIS - invalid address street field error
+580360 - 12:01:01 - ERROR: sessionid="12345" - Sending customer to Error page
+580361- 12:01:01 - INFO: calling GIS - Searching for address - 763 Lynne Street - Columbus - OH
+580362 - 12:01:02 - ERROR: sessionid="13355" - Error invoking gis service:

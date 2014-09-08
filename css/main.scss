@@ -3,6 +3,26 @@
 
 $menu-color : #202020;
 
+$file-background : #F8F4D7;
+$file-border-color: #BDBDA4;
+
+$code-font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+$code-font-size: 12.7272720336914px; 
+
+.text-file {
+  border-style: solid;
+  background-color: $file-background;
+  border-color: $file-border-color;
+  border-width: 2px;
+  margin-bottom: 10px;
+  padding: 10px;
+  font-family: $code-font-family;
+  font-size: $code-font-size;
+  br {
+    line-height: 190%;
+  }
+}
+
 .github-icon-svg, .twitter-icon-svg {
   display: inline-block;
   width: 16px;
@@ -67,6 +87,24 @@ div#content.page-content {
   }
 
   li {
+    color: black;
+  }
+}
+
+.yml {
+  span {
+    margin-left: 10px;
+  }
+
+}
+
+.lang-bash {
+  line-height: 150%;
+}
+
+#links { 
+  a.header-link{ 
+    background-color: yellow;
     color: black;
   }
 }
