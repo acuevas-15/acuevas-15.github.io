@@ -35,9 +35,9 @@ return {
 <pre class="prettyprint lang-html">
 &lt;div special-select ng-model="currentBusinessStructure" ng-option="item for item in businessStructure" &gt;How is your business structured?&lt;\div&gt;
 </pre>
-<p>Check out the running code with <a href="http://codepen.io/anon/pen/BAuyE">this CodePen.</a></p>
+<p>Check out the running code with <a href="http://codepen.io/anon/pen/BAuyE">this CodePen.</a>  If you would like to try to fix my code before continuing then do so now, there are spoilers ahead.</p>
 
-<button data-toggle="collapse" data-target="#working-directive" class="btn btn-primary">Click here to see my solution</button><strong style="margin-left:15px;">(spoiler warning)</strong>
+<button data-toggle="collapse" data-target="#working-directive" class="btn btn-primary">Click here to see my solution</button>
 <div id="working-directive" class="collapse">
 <h3>The working directive</h3>
 <p>In order make my directive more reusable, I had defined a scope block and defined a couple of variables so that I could pass down the options and model data that my angular select element would need.  This allows me to use different options and different models for each special-select element I use in a page.  However, when you assign a scope property the directive may no longer access the data in the scope of its parent controller.  In the angular documentation, this is called <em>isolate scope</em>.  This means that when I passed down an angular expression that referred to a variable in the parent controller's scope "item for item in <em>businessStructure</em>", my directive could not really use that data.  As a workaround, I decided to add a data property to my directive so that I could pass the options data variable to my directive, and as long as I refer to the new variable name in my angular expression, the select should print out fine.  You can find my functional code below.</p>
